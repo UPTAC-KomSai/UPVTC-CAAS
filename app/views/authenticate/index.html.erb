@@ -1,1 +1,22 @@
-<h1>This is where you sign in with your Google account.</h1>
+<% # Set up page-specific variables. %>
+<%= content_for :title, "Sign in - UPVTC Apps" %>
+
+<div class="container h-100">
+    <div id="login-container" class="row h-100 justify-content-center align-items-center">
+        <div id="login-box">
+            <header class="col-12">
+                <h1>Sign In</h1>
+            </header>
+            <article class="col-12">
+                <%= image_tag "upvtc-logo.png" %><br>  
+                <a id="signin-button" class="btn btn-block btn-social btn-google">
+                    <span class="fa fa-google"></span> Sign in with your UP Mail Account
+                </a>
+            </article>
+        </div>
+    </div>
+</div>
+
+<footer class="contaner w-100">
+    <p class="col-11 mx-auto">The seal belongs to the University of the Philippines Visayas. Photos of persons in the background used with permission from <a href="https://www.facebook.com/UPlente/">UP Lente</a>. Persons in the background image have allowed us to include a picture of themselves in the aforementioned image.</p>
+</footer>
