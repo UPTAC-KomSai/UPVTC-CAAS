@@ -7,6 +7,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
                     ssl: {
                         ca_file: Rails.root.join('certs/cacert.pem').to_s
                     }
-                 }
+                 },
+                 hd: 'up.edu.ph'
              }
 end
