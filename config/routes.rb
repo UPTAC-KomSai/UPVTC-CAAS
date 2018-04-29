@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   resources :sessions, only: [:create, :destroy]
 
   root 'authenticate#index'
+
+  get 'auth', to: 'authenticate#authenticate'
 end
