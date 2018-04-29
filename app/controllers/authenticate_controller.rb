@@ -6,6 +6,15 @@ class AuthenticateController < ApplicationController
   include AuthenticateHelper
 
   def index
+    if current_user and session[:redirect_url]
+      # This most likely means that a client app requested authentication
+      # but the user was not yet logged in to the CAAS.
+      redirect_url = session[:redirect_url]
+      session[:redirect_url] = nil
+
+      auth_url = '/auth/?redirect_url=' + URI.encode(redirect_url).to_s
+      redirect_to auth_url
+    end
   end
 
   def authenticate
@@ -41,7 +50,6 @@ class AuthenticateController < ApplicationController
       redirect_to client_auth_url.to_s
     else
       session[:redirect_url] = redirect_url
-
       redirect_to '/'
     end
   end
