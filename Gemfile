@@ -34,6 +34,9 @@ gem 'jbuilder', '~> 2.5'
 # Handle Google Sign-in
 gem 'omniauth-google-oauth2'
 
+# Create JWT tokens.
+gem 'jwt'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
