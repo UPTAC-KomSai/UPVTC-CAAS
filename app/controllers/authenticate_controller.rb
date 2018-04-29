@@ -1,4 +1,5 @@
 require 'uri'
+require 'securerandom'
 require 'jwt'
 
 class AuthenticateController < ApplicationController
@@ -15,16 +16,32 @@ class AuthenticateController < ApplicationController
       #       logged in on his own via the server.
 
       # Generate a one-time use service ticket in JWT format.
-      payload = { email: current_user.email, name: current_user.name }
-      ticket = JWT.encode payload, Rails.application.secrets.secret_key_base, 'HS256'
+      if ServiceTicket.where(:uid => current_user.uid).present?
+        ticket = ServiceTicket.where(:uid => current_user.uid).pluck(:ticket)[0].first
+      else
+        payload = {
+          uid: current_user.uid,
+          email: current_user.email,
+          name: current_user.name,
+          first_name: current_user.first_name,
+          last_name: current_user.last_name,
+          identifier: SecureRandom.uuid
+        }
+        ticket = JWT.encode payload, Rails.application.secrets.secret_key_base, 'HS256'
+        ServiceTicket.create(uid: current_user.uid, ticket: ticket)
+      end
 
       # Pass back to client with the service ticket.
-      client_auth_url = URI.join redirect_url, '/'
-      client_auth_url += '?serviceTicket=' + URI.escape(ticket)
-      client_auth_url += '&redirect_url=' + redirect_url
+      client_auth_url = URI.join redirect_url, '/auth/caas/callback/'
+      auth_queries = URI.decode_www_form(String(client_auth_url.query))
+      auth_queries <<= ['serviceTicket', URI.escape(ticket).to_s]
+      auth_queries <<= ['redirect_url', URI.encode(redirect_url).to_s]
+      client_auth_url.query = URI.encode_www_form(auth_queries)
 
-      redirect_to client_auth_url
+      redirect_to client_auth_url.to_s
     else
+      session[:redirect_url] = redirect_url
+
       redirect_to '/'
     end
   end
