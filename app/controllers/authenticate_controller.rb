@@ -5,10 +5,12 @@ class AuthenticateController < ApplicationController
   end
 
   def authenticate
+    redirect_url = params[:redirect_url]
+
     if current_user
-      redirect_to '/'
+      redirect_to redirect_url
     else
-      redirect_to 'https://twitter.com'
+      redirect_to '/'
     end
   end
 end
