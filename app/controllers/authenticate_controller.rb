@@ -21,6 +21,9 @@ class AuthenticateController < ApplicationController
 
   def authenticate
     redirect_url = params[:redirect_url]
+    #if redirect_url == nil
+      # Display fail page.
+    #end
 
     if current_user
       # NOTE: We have to make a ticket first to make sure that the user actually
@@ -39,7 +42,7 @@ class AuthenticateController < ApplicationController
       ServiceTicket.create(uid: current_user.uid, ticket: ticket)
 
       # Pass back to client with the service ticket.
-      client_auth_url = URI.join redirect_url, '/auth/caas/callback/'
+      client_auth_url = URI.join redirect_url, '/auth/caas/callback'
       auth_queries = URI.decode_www_form(String(client_auth_url.query))
       auth_queries <<= ['serviceTicket', URI.escape(ticket).to_s]
       auth_queries <<= ['redirect_url', URI.encode(redirect_url).to_s]

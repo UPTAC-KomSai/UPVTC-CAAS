@@ -8,6 +8,5 @@ Rails.application.routes.draw do
   root 'authenticate#index'
 
   get 'auth', to: 'authenticate#authenticate'
-  post 'auth/verifyTicket', to: 'authenticate#verify_ticket'  # Ask Sir Ultra if this can be
-                                                              # just a GET request.
+  get 'auth/verifyTicket', to: 'authenticate#verify_ticket'
 end
