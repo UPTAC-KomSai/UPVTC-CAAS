@@ -1,0 +1,34 @@
+<% # Set up page-specific variables. %>
+<%= content_for :title, "Sign in - UPVTC Apps" %>
+
+<div class="container h-100">
+    <div id="login-container" class="row h-100 justify-content-center align-items-center">
+        <div id="login-box">
+            <header class="col-12">
+                <%= image_tag "upvtc-logo.png" %><br>  
+                <% if current_user %>
+                    <h1>Sign Out</h1>
+                <% else %>
+                    <h1>Sign In</h1>
+                <% end %>
+            </header>
+            <article class="col-12">
+                <% if current_user %>
+                <h2>You have been signed in as <b><%= current_user.name %></b>! Log out now, thanks!</h2>
+                <a id="sign_out" class="btn btn-block btn-social btn-google col-2 mx-auto" href="/signout" style="text-align: center;">
+                    <span class="fa fa-google"></span> Sign out
+                </a>
+                <% else %>
+                <p>To access UPVTC apps, you must first sign in with your UP Mail Account.</p>
+                <a id="signin-button" class="btn btn-block btn-social btn-google col-5 mx-auto" href="/auth/google_oauth2">
+                    <span class="fa fa-google"></span> Sign in with your UP Mail Account
+                </a>
+                <% end %>
+            </article>
+        </div>
+    </div>
+</div>
+
+<footer class="contaner w-100">
+    <p class="col-11 mx-auto">The seal belongs to the University of the Philippines Visayas. Photos of persons in the background used with permission from <a href="https://www.facebook.com/UPlente/">UP Lente</a>. Persons in the background image have allowed us to include a picture of themselves in the aforementioned image.</p>
+</footer>
