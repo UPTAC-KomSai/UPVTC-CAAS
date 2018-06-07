@@ -1,16 +1,3 @@
 @import "bootstrap";
 @import "bootstrap-social";
 @import "font-awesome";
-
-// Google Fonts
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700|https://fonts.googleapis.com/css?family=Source+Sans+Pro);
-
-// Font variables
-$lato-font: "Lato", sans-serif;
-$source-sans-pro-font: "Source Sans Pro", sans-serif;
-
-body, html {
-    height: 100%;
-}
-
-@import "authenticate";
