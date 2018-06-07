@@ -263,6 +263,7 @@ DEPENDENCIES
   font-awesome-rails
   jbuilder (~> 2.5)
   jquery-rails
+  jwt
   omniauth-google-oauth2
   puma (~> 3.7)
   rails (~> 5.1.6)

@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [:create, :destroy]
 
   root 'authenticate#index'
+
+  get 'auth', to: 'authenticate#authenticate'
+  get 'auth/verifyTicket', to: 'authenticate#verify_ticket'
 end
