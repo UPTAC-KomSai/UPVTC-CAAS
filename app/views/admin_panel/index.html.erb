@@ -1,3 +1,28 @@
 <%= content_for :title, "Admin Panel - UPVTC Apps" %>
 
-Test
+<header>
+    <h1>Admin Panel</h1>
+</header>
+<article>
+    <div id="welcome-banner">
+        <h1>Welcome!</h1>
+        <p>Here you can invite new users and manage client apps. When you are done, you may <a href="/signout">sign out</a>.</p>
+    </div>
+    <div id="admin-options" class="container">
+        <div class="row">
+            <div id="invite-users" class="admin-option col-sm">
+                <%= image_tag "admin/invite-users.svg" %>
+                <h1>Invite New Users</h1>
+                <p>The more the merrier. Let more UPVTC students know about the UPVTC apps.</p>
+            </div>
+            <div id="manage-applications" class="admin-option col-sm">
+                <%= image_tag "admin/manage-apps.svg" %>
+                <h1>Manage Apps</h1>
+                <p>Manage client apps that use the UPVTC-CAAS service.</p>
+            </div>
+        </div>
+    </div>
+</article>
+<footer>
+    <p>Copyright &copy; <%= Time.current.year %> University of the Philippine Visayas Tacloban College. All rights reserved. Project by <a href="https://seanballais.github.io">Sean Francis Ballais</a>, John Ivan Puayap, and Warren Kenn Pulma.</p>
+</footer>

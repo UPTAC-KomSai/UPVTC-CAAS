@@ -1,3 +1,116 @@
 // Place all the styles related to the AdminPanel controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "_fonts";
+
+html, body {
+    background-color: rgb(41, 41, 41) !important;
+}
+
+div.admin-option {
+    border: 1px solid rgb(196, 196, 196);
+    border-radius: 5px;
+    
+    margin: 2% 5% 2% 5%;
+    padding: 3%;
+
+    cursor: pointer;
+
+    transition: all .2s ease-in-out;
+
+    h1 {
+        font-weight: lighter;
+        font-size: 1.4em;
+        color: #ED213A;
+    }
+
+    img {
+        width: 60%;
+        height: 60%;
+
+        margin-bottom: 10%;
+    }
+
+    &:hover {
+        transform: scale(1.015);
+    }
+}
+
+header {
+    background: rgb(128,0,0);
+    background: linear-gradient(56deg, #ED213A 0%, #93291E 100%);
+    color: #fff;
+
+    margin: 0;
+    padding: 2%;
+
+    width: 100%;
+    
+    h1 {
+        font-family: $lato-font;
+        font-weight: bold;
+        font-size: 3.5em;
+
+        text-align: center;
+    }
+}
+
+article {
+    background-color: white;
+
+    padding: 2%;
+
+    font-family: $source-sans-pro-font;
+    text-align: center;
+
+    h1 {
+        font-size: 2em;
+    }
+
+    p {
+        a {
+            color: rgb(214, 57, 57);
+            
+            font-weight: bold;
+
+            transition: 0.2s all ease-in;
+
+            &:hover {
+                color: rgb(165, 41, 41);
+
+                text-decoration: none;
+            }
+        }
+    }
+
+    div#admin-options {
+        max-width: 800px;
+    }
+}
+
+footer {
+    background-color: rgb(41, 41, 41);
+    color: #fff;
+
+    margin-top: 1%;
+    padding: 1%;
+
+    text-align: center;
+
+    p {
+        font-family: $source-sans-pro-font;
+        font-size: 0.85em;
+    }
+
+    a {
+        color: rgb(255, 144, 144);
+
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            color: rgb(255, 97, 97);
+            text-decoration: none;
+        }
+    }
+}
