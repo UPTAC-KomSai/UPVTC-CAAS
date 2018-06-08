@@ -44,7 +44,7 @@ $(document).ready(function() {
       $('div#invitation-form form#invite-form div.form-group').append(
         '<div class="removable-input">' +
         '    <span class="fas fa-times remove-input-button"></span>' +
-        '    <input type="email" class="form-control invited-email-address-input" placeholder="Add a UP Mail account...">' +
+        '    <input type="email" class="form-control invited-email-address-input" placeholder="Add a UP Mail account..." required>' +
         '</div>'
       );
     });
