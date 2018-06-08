@@ -59,33 +59,66 @@ header {
 article {
     background-color: white;
 
+    min-height: 500px;
     padding: 2%;
 
     font-family: $source-sans-pro-font;
     text-align: center;
 
-    h1 {
-        font-size: 2em;
+    div#dashboard {
+        h1 {
+            font-size: 2em;
+        }
+    
+        p {
+            a {
+                color: rgb(214, 57, 57);
+                
+                font-weight: bold;
+    
+                transition: 0.2s all ease-in;
+    
+                &:hover {
+                    color: rgb(165, 41, 41);
+    
+                    text-decoration: none;
+                }
+            }
+        }
+    
+        div#admin-options {
+            max-width: 800px;
+        }
     }
 
-    p {
-        a {
-            color: rgb(214, 57, 57);
-            
-            font-weight: bold;
+    div#invite-users-banner {
+        h1 {
+            span {
+                color: #ED213A;
 
-            transition: 0.2s all ease-in;
+                float: left;
 
-            &:hover {
-                color: rgb(165, 41, 41);
+                cursor: pointer;
 
-                text-decoration: none;
+                transition: 0.2s all ease-in;
+
+                &:hover {
+                    color: rgb(230, 55, 76);
+                }
             }
         }
     }
 
-    div#admin-options {
-        max-width: 800px;
+    div#invite-users-panel {
+        display: none;
+
+        h1 {
+            font-size: 2em;
+        }
+
+        div#invitation-form {
+            max-width: 800px;
+        }
     }
 }
 
