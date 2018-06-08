@@ -27,16 +27,29 @@ $.fn.extend({
 
 $(document).ready(function() {
     $('div#invite-users').click(function() {
-        $('div#dashboard').animateCss('fadeOutLeft', function() {
-            $('div#dashboard').css('display', 'none');
-            $('div#invite-users-panel').css('display', 'block').addClass('animated fadeInRight');
-        });
+      $('div#dashboard').animateCss('fadeOutLeft', function() {
+        $('div#dashboard').css('display', 'none');
+        $('div#invite-users-panel').css('display', 'block').addClass('animated fadeInRight');
+      });
     });
 
     $('span#invite-users-back-button').click(function() {
-        $('div#invite-users-panel').animateCss('fadeOutRight', function() {
-            $('div#invite-users-panel').css('display', 'none');
-            $('div#dashboard').css('display', 'block').addClass('animated fadeInLeft');
-        });
+      $('div#invite-users-panel').animateCss('fadeOutRight', function() {
+        $('div#invite-users-panel').css('display', 'none');
+        $('div#dashboard').css('display', 'block').addClass('animated fadeInLeft');
+      });
+    });
+
+    $('button#add-user-account').click(function() {
+      $('div#invitation-form form#invite-form div.form-group').append(
+        '<div class="removable-input">' +
+        '    <span class="fas fa-times remove-input-button"></span>' +
+        '    <input type="email" class="form-control invited-email-address-input" placeholder="Add a UP Mail account...">' +
+        '</div>'
+      );
+    });
+
+    $('div#invitation-form form#invite-form div.form-group').on('click', '.remove-input-button', function() {
+      $(this).parent().remove();
     });
 });

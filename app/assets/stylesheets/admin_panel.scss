@@ -8,9 +8,28 @@ html, body {
     background-color: rgb(41, 41, 41) !important;
 }
 
+span.internal-button {
+    color: #fff;
+    background-color: rgb(214, 57, 57);
+    padding: 5px;
+
+    border-radius: 3px;
+}
+
+.btn-danger {
+    background-color: rgb(214, 57, 57) !important;
+
+    transition: all 0.2s ease-in;
+
+    &:hover {
+        background-color: rgb(212, 77, 77) !important;
+    }
+}
+
 div.admin-option {
     border: 1px solid rgb(196, 196, 196);
     border-radius: 5px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
     
     margin: 2% 5% 2% 5%;
     padding: 3%;
@@ -91,24 +110,6 @@ article {
         }
     }
 
-    div#invite-users-banner {
-        h1 {
-            span {
-                color: #ED213A;
-
-                float: left;
-
-                cursor: pointer;
-
-                transition: 0.2s all ease-in;
-
-                &:hover {
-                    color: rgb(230, 55, 76);
-                }
-            }
-        }
-    }
-
     div#invite-users-panel {
         display: none;
 
@@ -116,8 +117,57 @@ article {
             font-size: 2em;
         }
 
+        div#invite-users-banner {
+            h1 {
+                span {
+                    color: #ED213A;
+    
+                    float: left;
+    
+                    cursor: pointer;
+    
+                    transition: 0.2s all ease-in;
+    
+                    &:hover {
+                        color: rgb(230, 55, 76);
+                    }
+                }
+            }
+        }
+
         div#invitation-form {
             max-width: 800px;
+
+            div.removable-input {
+                position: relative;
+
+                span {
+                    color: #ED213A;
+
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+
+                    cursor: pointer;
+                }
+            }
+
+            form#invite-form {
+                input.invited-email-address-input {
+                    margin-top: 1%;
+                    margin-bottom: 1%;
+                }
+
+                div#invite-form-buttons {
+                    button#add-user-account {
+                        float: left !important;
+                    }
+        
+                    button#invite-users {
+                        float: right;
+                    }
+                }
+            }
         }
     }
 }

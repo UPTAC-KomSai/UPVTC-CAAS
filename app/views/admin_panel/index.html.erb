@@ -27,12 +27,16 @@
     <div id="invite-users-panel" class="container">
         <div id="invite-users-banner">
             <h1><span id="invite-users-back-button"><i class="fas fa-arrow-left"></i></span>Invite Users</h1>
-            <p>Type in the UP Mail accounts of those you would like to invite, and press "Invite" to invite them.</p>
+            <p>Type in the UP Mail accounts of those you would like to invite, and press <span class="internal-button"><i class="fas fa-paper-plane"></i> Invite users</span> to invite them.</p>
         </div>
         <div id="invitation-form" class="container">
-            <form>
+            <form id="invite-form">
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Type a UP Mail account...">
+                    <input type="email" class="form-control invited-email-address-input" placeholder="Add a UP Mail account...">
+                </div>
+                <div id="invite-form-buttons">
+                    <button id="add-user-account" type="button" class="btn btn-secondary"><i class="fas fa-plus"></i> Add an account</button>
+                    <button id="invite-users" type="submit" class="btn btn-danger"><i class="fas fa-paper-plane"></i> Invite users</button>
                 </div>
             </form>
         </div>

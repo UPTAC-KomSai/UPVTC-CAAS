@@ -16,12 +16,12 @@
                 <% if current_user %>
                 <h2>You have been signed in as <b><%= current_user.name %></b>! Log out now, thanks!</h2>
                 <a id="sign_out" class="btn btn-block btn-social btn-google col-2 mx-auto" href="/signout" style="text-align: center;">
-                    <span class="fa fa-google"></span> Sign out
+                    <span class="fab fa-google"></span> Sign out
                 </a>
                 <% else %>
                 <p>To access UPVTC apps, you must first sign in with your UP Mail Account.</p>
                 <a id="signin-button" class="btn btn-block btn-social btn-google col-5 mx-auto" href="/auth/google_oauth2">
-                    <span class="fa fa-google"></span> Sign in with your UP Mail Account
+                    <span class="fab fa-google"></span> Sign in with your UP Mail Account
                 </a>
                 <% end %>
             </article>
