@@ -1,5 +1,13 @@
 <%= content_for :title, "Admin Panel - UPVTC Apps" %>
 
+<div id="error-message">
+    <p>Test error</p>
+</div>
+
+<div id="success-message">
+    <p>Test error</p>
+</div>
+
 <header>
     <h1>Admin Panel</h1>
 </header>
@@ -35,6 +43,7 @@
                     <input type="email" class="form-control invited-email-address-input" placeholder="Add a UP Mail account..." required>
                 </div>
                 <div id="invite-form-buttons">
+                    <!-- Customize Popover -->                
                     <button id="add-user-account" type="button" class="btn btn-secondary"><i class="fas fa-plus"></i> Add an account</button>
                     <button id="invite-users" type="submit" class="btn btn-danger"><i class="fas fa-paper-plane"></i> Invite users</button>
                 </div>

@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   get 'auth', to: 'authenticate#authenticate'
   get 'auth/verifyTicket', to: 'authenticate#verify_ticket'
   get 'admin', to: 'admin_panel#index'
+  post 'admin/send_emails', to: 'admin_panel#send_emails'
 end

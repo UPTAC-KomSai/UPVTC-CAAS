@@ -37,6 +37,9 @@ gem 'omniauth-google-oauth2'
 # Create JWT tokens.
 gem 'jwt'
 
+# To let us send emails.
+gem 'gmail'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

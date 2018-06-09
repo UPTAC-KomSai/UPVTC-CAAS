@@ -26,6 +26,10 @@ span.internal-button {
     }
 }
 
+input.error-focus:focus {
+    border: 1px solid rgb(255, 48, 48);
+}
+
 div.admin-option {
     border: 1px solid rgb(196, 196, 196);
     border-radius: 5px;
@@ -54,6 +58,43 @@ div.admin-option {
     &:hover {
         transform: scale(1.015);
     }
+}
+
+div#error-message, div#success-message {
+    color: white;
+    text-align: center;
+
+    font-family: $source-sans-pro-font;
+
+    position: fixed;
+
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+
+    max-width: 400px;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+
+    z-index: 10;
+
+    transition: 0.5s transform ease;
+
+    p {
+        margin: 0 !important;
+    }
+}
+
+div#error-message {
+    background-color: rgb(212, 40, 40);
+}
+
+div#success-message {
+    background-color: rgb(31, 31, 31);
 }
 
 header {
