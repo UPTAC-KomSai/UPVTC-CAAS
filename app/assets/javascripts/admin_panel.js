@@ -86,6 +86,11 @@ $(document).ready(function() {
         return false;
       }
 
+      // Remove the first character since it is just comma and it is unneeded.
+      if (emailAddresses.length > 0) {
+        emailAddresses = emailAddresses.slice(1);
+      }
+
       // Everything went okay.
       $.ajax({
         url: '/admin/send_emails',
@@ -94,7 +99,7 @@ $(document).ready(function() {
           xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]')
              .attr('content'))
         },
-        data: emailAddresses,
+        data: 'email_addresses=' + emailAddresses,
         error: function(XMLHttpRequest, response, errorThrown) {
           $('button#invite-users').removeAttr('disabled')
                                   .html('<i class="fas fa-paper-plane"></i> Invite users');
