@@ -30,7 +30,7 @@ $.fn.extend({
 
 $(document).ready(function() {
   $('div#logout-floater').click(function() {
-    
+    window.location.replace(window.location.origin + '/signout');
   });
 
   $('div#invite-users').click(function() {

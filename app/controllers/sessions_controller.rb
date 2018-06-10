@@ -28,6 +28,7 @@ class SessionsController < ApplicationController
       # We will only follow one level of redirection because,
       # typically during logouts, you just need to delete your
       # cookies and never needing to redirect.
+      p session[:client_logout_urls]
       url = URI.join(session[:client_logout_urls].pop, '/auth/caas/logout/')
       redirect_to url.to_s
       return
