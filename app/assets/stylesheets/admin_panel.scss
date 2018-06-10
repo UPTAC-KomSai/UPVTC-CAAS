@@ -97,6 +97,40 @@ div#success-message {
     background-color: rgb(31, 31, 31);
 }
 
+div#logout-floater {
+    color: white;
+    text-align: center;
+
+    font-family: $source-sans-pro-font;
+
+    position: fixed;
+
+    background-color: rgb(31, 31, 31);
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    right: 25px;
+    max-width: 150px;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+
+    z-index: 10;
+
+    cursor: pointer;
+
+    transition: 0.4s all ease;
+
+    p {
+        margin: 0 !important;
+    }
+
+    &:hover {
+        background-color: rgb(56, 56, 56);
+    }
+}
+
 header {
     background: rgb(128,0,0);
     background: linear-gradient(56deg, #ED213A 0%, #93291E 100%);

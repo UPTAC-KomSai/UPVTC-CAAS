@@ -91,7 +91,7 @@ class AdminPanelController < ApplicationController
         app_url = params[:app_url]
 
         last_character_index = 0
-        str_ctr = app_url[1].length - 1
+        str_ctr = app_url.length - 1
         while str_ctr >= 0 do
             if app_url[str_ctr] != '/'
                 last_character_index = str_ctr
@@ -101,6 +101,7 @@ class AdminPanelController < ApplicationController
             str_ctr -= 1
         end
         app_url = app_url[0..str_ctr]
+        p app_url
         
         client_app = ClientApp.find_by(id: app_id)
         client_app.name = app_name

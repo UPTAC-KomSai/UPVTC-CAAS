@@ -29,6 +29,10 @@ $.fn.extend({
 });
 
 $(document).ready(function() {
+  $('div#logout-floater').click(function() {
+    
+  });
+
   $('div#invite-users').click(function() {
     $('div#dashboard').animateCss('fadeOutLeft', function() {
       $('div#dashboard').css('display', 'none');
