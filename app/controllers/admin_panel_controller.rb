@@ -30,9 +30,41 @@ class AdminPanelController < ApplicationController
                 elsif email_address.blank?
                     next
                 else
-                    render :status => :bad_request, :text => 'Email address is invalid or is not a UP Mail account (i.e. the ones with @up.edu.ph).'
+                    render :status => :bad_request, json: {
+                        :text => 'Email address is invalid or is not a UP Mail account (i.e. the ones with @up.edu.ph).'
+                    }.to_json
                 end
             end
         end
+    end
+
+    def new_client_app
+        client_details = params['client_details'].split(',').reject { |detail| detail.gsub(/\s+/, "").empty? }
+        
+        client_details[0].strip!
+        client_details[1].strip!
+
+        if client_details[0].blank?
+            render :status => :bad_request, json: {
+                :text => 'You sent an empty client name. Use letters, numbers, and symbols only.'
+            }.to_json
+        end
+
+        if client_details[1].blank? and /^https?:\/\/[-a-zA-Z0-9@:%._\+~#=\/]{1,256}$/.match? client_details[1]
+            render :status => :bad_request, json: {
+                :text => 'You sent an invalid url. It must be a valid URL and must start with "http" or "https".'
+            }.to_json
+        end
+
+        # Check duplicate URLs
+
+        client_details[1].chomp!(client_details[1][/\/+$/])
+        client_details[1] += '/'
+
+        app = ClientApp.create(name: client_details[0], url: client_details[1])
+
+        render :status => 200, json: {
+            :text => app.id
+        }.to_json
     end
 end

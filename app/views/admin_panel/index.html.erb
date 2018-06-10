@@ -69,8 +69,9 @@
                         <% @client_apps.each do |client_app| %>
                         <tr>
                             <td class="client-name"><%= client_app.name %></td>
-                            <td><%= client_app.url %></td>
+                            <td class="client-url"><%= client_app.url %></td>
                             <td><button class="edit-app-button btn btn-dark"><i class="fas fa-edit"></i> Edit</button><button class="delete-app-button btn btn-danger"><i class="fas fa-trash"></i> Delete</button></td>
+                            <input type="hidden" value="<%= client_app.id %>">
                         </tr>
                         <% end %>
                     </tbody>
@@ -79,7 +80,6 @@
             <!-- TODO: Add mobile support. -->
             <div id="manage-apps-form-buttons">
                 <button id="add-new-app" type="button" class="btn btn-secondary"><i class="fas fa-plus"></i> Add New App</button>
-                <button id="save-changes" type="submit" class="btn btn-danger"><i class="fas fa-save"></i> Save Changes</button>
             </div>
         </div>
     </div>

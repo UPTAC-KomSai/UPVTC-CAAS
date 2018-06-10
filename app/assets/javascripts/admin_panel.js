@@ -130,13 +130,11 @@ $(document).ready(function() {
     
           $('div#success-message').html('<p>Invitations sent! <i class="fas fa-smile"></i></p>');
           $('div#success-message').css('transform', 'translate(-50%, 0%)')
-                                .delay(5000)
-                                .queue(function(next) {
-                                  $('div#success-message').css('transform', 'translate(-50%, -100%)');
-                                  next();
-                                });
-
-          return false;
+                                  .delay(5000)
+                                  .queue(function(next) {
+                                    $('div#success-message').css('transform', 'translate(-50%, -100%)');
+                                    next();
+                                  });
         }
       });
     }
@@ -171,6 +169,45 @@ $(document).ready(function() {
 
   $('div#app-management-form div#app-list table').on('blur', 'input', function() {
     var clientRow = $($(this).parent().parent()).children('td');
+    var inputsFilled = true;
+    for (var i = 0; i < 2; i++) {
+      var currentRow = $(clientRow[i]).children('input')[0];
+      
+      if (i == 1 && !$(currentRow).hasClass('error-focus') && $(currentRow).val() != '') {
+        // We are in the app url input.
+        var urlRegex = /^https?:\/\/[-a-zA-Z0-9@:%._\+~#=\/]{1,256}$/;
+        if (!urlRegex.test($(currentRow).val())) {
+          // URL does not match!
+          $('div#error-message').html('<p>Hey! URL format is incorrect. It must be a valid URL and must start with "http" or "https".</p>');
+          $('div#error-message').css('transform', 'translate(-50%, 0%)')
+                                .delay(5000)
+                                .queue(function(next) {
+                                  $('div#error-message').css('transform', 'translate(-50%, -100%)');
+                                  next();
+                                });
+          $(currentRow).addClass('error-focus');
+          $(currentRow).focus();
+
+          $(clientRow[2]).children('button.save-app-button').attr('disabled', 'disabled');
+        }
+      } else if (i == 1 && $(currentRow).hasClass('error-focus')) {
+        $(currentRow).removeClass('error-focus');
+      }
+
+      if ($(currentRow).val() == '') {
+        $(clientRow[2]).children('button.save-app-button').attr('disabled', 'disabled');
+
+        inputsFilled = false;
+      }
+    }
+
+    if (inputsFilled) {
+      $(clientRow[2]).children('button.save-app-button').removeAttr('disabled');
+    }
+  });
+
+  $('div#app-management-form div#app-list table').on('keyup', 'input', function() {
+    var clientRow = $($(this).parent().parent()).children('td');
     for (var i = 0; i < 2; i++) {
       var currentRow = $(clientRow[i]).children('input')[0];
       
@@ -179,9 +216,87 @@ $(document).ready(function() {
 
         return false;
       }
-    }
 
-    $(clientRow[2]).children('button.save-app-button').removeAttr('disabled');
+      if (i == 1) {
+        // We are in the app url input.
+        var urlRegex = /^https?:\/\/[-a-zA-Z0-9@:%._\+~#=\/]{1,256}$/;
+        if (!urlRegex.test($(currentRow).val())) {
+          // URL does not match!
+          $(clientRow[2]).children('button.save-app-button').attr('disabled', 'disabled');
+        } else {
+          $(clientRow[2]).children('button.save-app-button').removeAttr('disabled');
+        }
+      }
+    }
+  });
+
+  $('div#app-management-form div#app-list table').on('click', '.save-app-button', function() {
+    var buttonRowChidren = $(this).parent().parent().children('td');
+    var clientAppName = $.trim($($(buttonRowChidren[0]).children('input')[0]).val());
+    var clientAppUrl = $.trim($($(buttonRowChidren[1]).children('input')[0]).val());
+    var saveButton = $(this);
+    var cancelButton = $(buttonRowChidren[2]).children('button.cancel-app-button')[0];
+
+    // Make sure there is only one ending / in the client app URL.
+    clientAppUrl = clientAppUrl.replace(/,+$/, "");
+    clientAppUrl += '/';
+
+    $(this).attr('disabled', 'disabled')
+           .html('<i class="fas fa-spinner fa-spin"></i> Saving...');
+    $(cancelButton).attr('disabled', 'disabled');
+
+    $.ajax({
+      url: '/admin/app/new',
+      type: 'POST',
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]')
+           .attr('content'))
+      },
+      data: 'client_details=' + clientAppName + ',' + clientAppUrl
+    })
+    .done(function (response) {
+      // Delete the whole row and place the new data.
+      $(saveButton).parent().parent().remove();
+      $('div#app-management-form div#app-list table tbody').append(
+        '<tr>' +
+        '    <td class="client-name">' + clientAppName + '</td>' +
+        '    <td class="client-url">' + clientAppUrl + '</td>' +
+        '    <td><button class="edit-app-button btn btn-dark"><i class="fas fa-edit"></i> Edit</button><button class="delete-app-button btn btn-danger"><i class="fas fa-trash"></i> Delete</button></td>' +
+        '    <input type="hidden" value="' + response.text + '">' +
+        '</tr>'
+      );
+  
+      $('div#success-message').html('<p>New app added! <i class="fas fa-smile"></i></p>');
+      $('div#success-message').css('transform', 'translate(-50%, 0%)')
+                              .delay(5000)
+                              .queue(function(next) {
+                                $('div#success-message').css('transform', 'translate(-50%, -100%)');
+                                next();
+                              });
+    })
+    .fail(function(XMLHttpRequest, response, errorThrown) {
+      $(saveButton).removeAttr('disabled')
+                   .html('<i class="fas fa-check"></i> Save');
+      $(cancelButton).removeAttr('disabled');
+
+      var errorMessage = '';
+      if (XMLHttpRequest.readyState == 4) {
+        // HTTP Error.
+        errorMessage = '<i class="fas fa-frown"></i> ' + XMLHttpRequest.statusText;
+      } else if (XMLHttpRequest.readyState == 0) {
+        errorMessage = 'It seems that we cannot add new apps as of the moment. <i class="fas fa-frown"></i> Check again later and please inform the system administrator that you cannot add new apps.';
+      } else {
+        errorMessage = 'Weird stuff. <i class="fas fa-meh"></i> Please report this issue to the system adminstrator immediately!';
+      }
+
+      $('div#error-message').html('<p>Oh no! ' + errorMessage + '</p>');
+      $('div#error-message').css('transform', 'translate(-50%, 0%)')
+                            .delay(10000)
+                            .queue(function(next) {
+                              $('div#error-message').css('transform', 'translate(-50%, -100%)');
+                              next();
+                            });
+    });
   });
 
   $('div#app-management-form div#app-list table').on('click', '.cancel-app-button', function() {

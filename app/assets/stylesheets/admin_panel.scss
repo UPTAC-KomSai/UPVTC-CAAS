@@ -249,7 +249,7 @@ article {
                             td {
                                 width: 250px;
 
-                                &.client-name {
+                                &.client-name, &.client-url {
                                     text-align: left;
                                 }
 
@@ -267,10 +267,6 @@ article {
             div#manage-apps-form-buttons {
                 button#add-new-app {
                     float: left !important;
-                }
-
-                button#save-changes {
-                    float: right;
                 }
             }
         }
