@@ -1,0 +1,96 @@
+<%= content_for :title, "Admin Panel - UPVTC Apps" %>
+
+<div id="error-message">
+    <p>Test error</p>
+</div>
+
+<div id="success-message">
+    <p>Test error</p>
+</div>
+
+<div id="logout-floater">
+    <p><i class="fas fa-sign-out-alt"></i> Sign Out</p>
+</div>
+
+<header>
+    <h1>Admin Panel</h1>
+</header>
+<article>
+    <div id="dashboard">
+        <div id="welcome-banner" class="container">
+            <h1>Welcome!</h1>
+            <p>Here, you can invite new users and manage client apps.</p>
+        </div>
+        <div id="admin-options" class="container">
+            <div class="row">
+                <div id="invite-users" class="admin-option col-sm">
+                    <%= image_tag "admin/invite-users.svg" %>
+                    <h1>Invite New Users</h1>
+                    <p>The more the merrier. Let more UPVTC students know about the UPVTC apps.</p>
+                </div>
+                <div id="manage-apps" class="admin-option col-sm">
+                    <%= image_tag "admin/manage-apps.svg" %>
+                    <h1>Manage Apps</h1>
+                    <p>Manage client apps that use the UPVTC-CAAS service.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="invite-users-panel" class="container">
+        <div id="invite-users-banner">
+            <h1><span id="invite-users-back-button"><i class="fas fa-arrow-left"></i></span>Invite Users</h1>
+            <p>Type in the UP Mail accounts of those you would like to invite, and press <span class="internal-button"><i class="fas fa-paper-plane"></i> Invite users</span> to invite them.</p>
+        </div>
+        <div id="invitation-form" class="container">
+            <form id="invite-form">
+                <div class="form-group">
+                    <input type="email" class="form-control invited-email-address-input" placeholder="Add a UP Mail account..." required>
+                </div>
+                <div id="invite-form-buttons">
+                    <!-- Customize Popover -->                
+                    <button id="add-user-account" type="button" class="btn btn-secondary"><i class="fas fa-plus"></i> Add an account</button>
+                    <button id="invite-users" type="submit" class="btn btn-danger"><i class="fas fa-paper-plane"></i> Invite users</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="manage-apps-panel" class="container">
+        <div id="manage-apps-banner">
+            <h1><span id="manage-apps-back-button"><i class="fas fa-arrow-left"></i></span>Manage Apps</h1>
+            <p>Add, edit, or remove client apps that utilize the UPVTC-CAAS service. Make sure you have the <b>correct</b> URL for the client app. Otherwise, it will not work.</p>
+        </div>
+        <div id="app-management-form" class="container">
+            <div id="app-list" class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>App Name</th>
+                            <th>App URL</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rename DELETE to REMOVE -->
+                        <% @client_apps.each do |client_app| %>
+                        <tr>
+                            <td class="client-name"><%= client_app.name %></td>
+                            <td class="client-url"><%= client_app.url %></td>
+                            <td><button class="edit-app-button btn btn-dark"><i class="fas fa-edit"></i> Edit</button><button class="delete-app-button btn btn-danger"><i class="fas fa-trash"></i> Delete</button></td>
+                            <input type="hidden" value="<%= client_app.id %>">
+                            <input type="hidden" value="<%= client_app.name %>">
+                            <input type="hidden" value="<%= client_app.url %>">
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+            <!-- TODO: Add mobile support. -->
+            <div id="manage-apps-form-buttons">
+                <button id="add-new-app" type="button" class="btn btn-secondary"><i class="fas fa-plus"></i> Add New App</button>
+            </div>
+        </div>
+    </div>
+</article>
+<footer>
+    <p>Copyright &copy; <%= Time.current.year %> University of the Philippine Visayas Tacloban College. All rights reserved. Project by <a href="https://seanballais.github.io">Sean Francis Ballais</a>, John Ivan Puayap, and Warren Kenn Pulma.</p>
+</footer>

@@ -1,0 +1,334 @@
+// Place all the styles related to the AdminPanel controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "_fonts";
+
+html, body {
+    background-color: rgb(41, 41, 41) !important;
+}
+
+span.internal-button {
+    color: #fff;
+    background-color: rgb(214, 57, 57);
+    padding: 5px;
+
+    border-radius: 3px;
+}
+
+.btn-danger {
+    background-color: rgb(214, 57, 57) !important;
+
+    transition: all 0.2s ease-in;
+
+    &:hover {
+        background-color: rgb(212, 77, 77) !important;
+    }
+}
+
+input.error-focus:focus {
+    border: 1px solid rgb(255, 48, 48);
+}
+
+div.admin-option {
+    border: 1px solid rgb(196, 196, 196);
+    border-radius: 5px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+    
+    margin: 2% 5% 2% 5%;
+    padding: 3%;
+
+    cursor: pointer;
+
+    transition: all .2s ease-in-out;
+
+    h1 {
+        font-weight: lighter;
+        font-size: 1.4em;
+        color: #ED213A;
+    }
+
+    img {
+        width: 60%;
+        height: 60%;
+
+        margin-bottom: 10%;
+    }
+
+    &:hover {
+        transform: scale(1.015);
+    }
+}
+
+div#error-message, div#success-message {
+    color: white;
+    text-align: center;
+
+    font-family: $source-sans-pro-font;
+
+    position: fixed;
+
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+
+    max-width: 400px;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+
+    z-index: 10;
+
+    transition: 0.5s transform ease;
+
+    p {
+        margin: 0 !important;
+    }
+}
+
+div#error-message {
+    background-color: rgb(212, 40, 40);
+}
+
+div#success-message {
+    background-color: rgb(31, 31, 31);
+}
+
+div#logout-floater {
+    color: white;
+    text-align: center;
+
+    font-family: $source-sans-pro-font;
+
+    position: fixed;
+
+    background-color: rgb(31, 31, 31);
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    right: 25px;
+    max-width: 150px;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+
+    z-index: 10;
+
+    cursor: pointer;
+
+    transition: 0.4s all ease;
+
+    p {
+        margin: 0 !important;
+    }
+
+    &:hover {
+        background-color: rgb(56, 56, 56);
+    }
+}
+
+header {
+    background: rgb(128,0,0);
+    background: linear-gradient(56deg, #ED213A 0%, #93291E 100%);
+    color: #fff;
+
+    margin: 0;
+    padding: 2%;
+
+    width: 100%;
+    
+    h1 {
+        font-family: $lato-font;
+        font-weight: bold;
+        font-size: 3.5em;
+
+        text-align: center;
+    }
+}
+
+article {
+    background-color: white;
+
+    min-height: 500px;
+    padding: 2%;
+
+    font-family: $source-sans-pro-font;
+    text-align: center;
+
+    overflow: auto;
+
+    div#dashboard {
+        h1 {
+            font-size: 2em;
+        }
+    
+        p {
+            a {
+                color: rgb(214, 57, 57);
+                
+                font-weight: bold;
+    
+                transition: 0.2s all ease-in;
+    
+                &:hover {
+                    color: rgb(165, 41, 41);
+    
+                    text-decoration: none;
+                }
+            }
+        }
+    
+        div#admin-options {
+            max-width: 800px;
+        }
+    }
+
+    div#invite-users-panel {
+        display: none;
+
+        h1 {
+            font-size: 2em;
+        }
+
+        div#invite-users-banner {
+            h1 {
+                span {
+                    color: #ED213A;
+    
+                    float: left;
+    
+                    cursor: pointer;
+    
+                    transition: 0.2s all ease-in;
+    
+                    &:hover {
+                        color: rgb(230, 55, 76);
+                    }
+                }
+            }
+        }
+
+        div#invitation-form {
+            max-width: 800px;
+
+            div.removable-input {
+                position: relative;
+
+                span {
+                    color: #ED213A;
+
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+
+                    cursor: pointer;
+                }
+            }
+
+            form#invite-form {
+                input.invited-email-address-input {
+                    margin-top: 1%;
+                    margin-bottom: 1%;
+                }
+
+                div#invite-form-buttons {
+                    button#add-user-account {
+                        float: left !important;
+                    }
+        
+                    button#invite-users {
+                        float: right;
+                    }
+                }
+            }
+        }
+    }
+
+    div#manage-apps-panel {
+        display: none;
+
+        h1 {
+            font-size: 2em;
+        }
+
+        div#manage-apps-banner {
+            h1 {
+                span {
+                    color: #ED213A;
+    
+                    float: left;
+    
+                    cursor: pointer;
+    
+                    transition: 0.2s all ease-in;
+    
+                    &:hover {
+                        color: rgb(230, 55, 76);
+                    }
+                }
+            }
+        }
+
+        div#app-management-form {
+            max-width: 960px;
+
+            div#app-list {
+                table {
+                    tbody {
+                        tr {
+                            td {
+                                width: 250px;
+
+                                &.client-name, &.client-url {
+                                    text-align: left;
+                                }
+
+                                vertical-align: middle;
+
+                                button {
+                                    margin: 5px 5px 5px 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            div#manage-apps-form-buttons {
+                button#add-new-app {
+                    float: left !important;
+                }
+            }
+        }
+    }
+}
+
+footer {
+    background-color: rgb(41, 41, 41);
+    color: #fff;
+
+    margin-top: 1%;
+    padding: 1%;
+
+    text-align: center;
+
+    p {
+        font-family: $source-sans-pro-font;
+        font-size: 0.85em;
+    }
+
+    a {
+        color: rgb(255, 144, 144);
+
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            color: rgb(255, 97, 97);
+            text-decoration: none;
+        }
+    }
+}
