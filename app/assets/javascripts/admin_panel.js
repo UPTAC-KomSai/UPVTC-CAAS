@@ -302,4 +302,59 @@ $(document).ready(function() {
   $('div#app-management-form div#app-list table').on('click', '.cancel-app-button', function() {
     $(this).parent().parent().remove();
   });
+
+  $('div#app-management-form div#app-list table').on('click', '.delete-app-button', function() {
+    var buttonRowChidren = $(this).parent().parent().children('td');
+    var appID = $($(this).parent().parent().children('input')[0]).val();
+    var deleteButton = $(this);
+    var editButton = $(buttonRowChidren[2]).children('button.edit-app-button')[0];
+
+    $(this).attr('disabled', 'disabled')
+           .html('<i class="fas fa-spinner fa-spin"></i> Deleting...');
+    $(editButton).attr('disabled', 'disabled');
+
+    $.ajax({
+      url: '/admin/app/' + appID + 'delete',
+      type: 'DELETE',
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]')
+           .attr('content'))
+      }
+    })
+    .done(function (response) {
+      // Delete the whole row and place the new data.
+      $(deleteButton).parent().parent().remove();
+  
+      $('div#success-message').html('<p>App deleted! <i class="fas fa-smile"></i></p>');
+      $('div#success-message').css('transform', 'translate(-50%, 0%)')
+                              .delay(5000)
+                              .queue(function(next) {
+                                $('div#success-message').css('transform', 'translate(-50%, -100%)');
+                                next();
+                              });
+    })
+    .fail(function(XMLHttpRequest, response, errorThrown) {
+      $(deleteButton).removeAttr('disabled')
+                     .html('<i class="fas fa-trash"></i> Delete');
+      $(editButton).removeAttr('disabled');
+
+      var errorMessage = '';
+      if (XMLHttpRequest.readyState == 4) {
+        // HTTP Error.
+        errorMessage = '<i class="fas fa-frown"></i> ' + XMLHttpRequest.statusText;
+      } else if (XMLHttpRequest.readyState == 0) {
+        errorMessage = 'It seems that we cannot delete apps as of the moment. <i class="fas fa-frown"></i> Check again later and please inform the system administrator that you cannot delete apps.';
+      } else {
+        errorMessage = 'Weird stuff. <i class="fas fa-meh"></i> Please report this issue to the system adminstrator immediately!';
+      }
+
+      $('div#error-message').html('<p>Oh no! ' + errorMessage + '</p>');
+      $('div#error-message').css('transform', 'translate(-50%, 0%)')
+                            .delay(10000)
+                            .queue(function(next) {
+                              $('div#error-message').css('transform', 'translate(-50%, -100%)');
+                              next();
+                            });
+    });
+  });
 });

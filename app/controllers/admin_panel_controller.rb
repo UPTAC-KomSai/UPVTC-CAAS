@@ -67,4 +67,11 @@ class AdminPanelController < ApplicationController
             :text => app.id
         }.to_json
     end
+
+    def delete_client_app
+        # Check if the ID exists
+        app_id = params[:id]
+
+        ClientApp.where(id: app_id).destroy_all
+    end
 end
