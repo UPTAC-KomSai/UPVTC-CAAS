@@ -247,7 +247,7 @@ $(document).ready(function() {
 
     $.ajax({
       url: '/admin/app/new',
-      type: 'POST',
+      type: 'PUT',
       beforeSend: function(xhr) {
         xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]')
            .attr('content'))
@@ -263,6 +263,8 @@ $(document).ready(function() {
         '    <td class="client-url">' + clientAppUrl + '</td>' +
         '    <td><button class="edit-app-button btn btn-dark"><i class="fas fa-edit"></i> Edit</button><button class="delete-app-button btn btn-danger"><i class="fas fa-trash"></i> Delete</button></td>' +
         '    <input type="hidden" value="' + response.text + '">' +
+        '    <input type="hidden" value="' + clientAppName + '">' +
+        '    <input type="hidden" value="' + clientAppUrl + '">' +
         '</tr>'
       );
   
@@ -301,6 +303,50 @@ $(document).ready(function() {
 
   $('div#app-management-form div#app-list table').on('click', '.cancel-app-button', function() {
     $(this).parent().parent().remove();
+  });
+
+  $('div#app-management-form div#app-list table').on('click', '.edit-app-button', function() {
+    var buttonRowChidren = $(this).parent().parent().children('td');
+    var clientAppNameColumn = $(buttonRowChidren[0]);
+    var clientAppUrlColumn = $(buttonRowChidren[1]);
+    var clientAppName = $.trim($(buttonRowChidren[0]).text());
+    var clientAppUrl = $.trim($(buttonRowChidren[1]).text());
+    var appID = $($(this).parent().parent().children('input')[0]).val();
+    var editButton = $(this);
+    var deleteButton = $(buttonRowChidren[2]).children('button.delete-app-button')[0];
+
+    $(clientAppNameColumn).html(
+      '<input type="text" class="form-control client-app-name-input" placeholder="Client App Name" value="' + clientAppName +'" required>'
+    );
+    $(clientAppUrlColumn).html(
+      '<input type="text" class="form-control client-app-url-input" placeholder="Client App URL" value="' + clientAppUrl +'" required>'
+    );
+
+    $(this).removeClass('btn-dark edit-app-button')
+           .addClass('btn-primary save-edit-app-button')
+           .html('<i class="fas fa-check"></i> Save');
+    $(deleteButton).removeClass('delete-app-button')
+                   .addClass('revert-app-button')
+                   .html('<i class="fas fa-ban"></i> Cancel');
+  });
+
+  $('div#app-management-form div#app-list table').on('click', '.revert-app-button', function() {
+    var buttonRowChidren = $(this).parent().parent().children('td');
+    var clientAppNameColumn = $(buttonRowChidren[0]);
+    var clientAppUrlColumn = $(buttonRowChidren[1]);
+    var storedClientAppNameField = $($(this).parent().parent().children('input')[1]).val();
+    var storedClientAppUrlField = $($(this).parent().parent().children('input')[2]).val();
+    var editButton = $(buttonRowChidren[2]).children('button.save-edit-app-button')[0];
+
+    $(clientAppNameColumn).html(storedClientAppNameField);
+    $(clientAppUrlColumn).html(storedClientAppUrlField);
+
+    $(editButton).removeClass('btn-primary save-edit-app-button')
+                 .addClass('btn-dark edit-app-button')
+                 .html('<i class="fas fa-edit"></i> Edit');
+    $(this).removeClass('revert-app-button')
+           .addClass('delete-app-button')
+           .html('<i class="fas fa-trash"></i> Delete');
   });
 
   $('div#app-management-form div#app-list table').on('click', '.delete-app-button', function() {

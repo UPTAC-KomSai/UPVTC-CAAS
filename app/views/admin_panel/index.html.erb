@@ -73,6 +73,8 @@
                             <td class="client-url"><%= client_app.url %></td>
                             <td><button class="edit-app-button btn btn-dark"><i class="fas fa-edit"></i> Edit</button><button class="delete-app-button btn btn-danger"><i class="fas fa-trash"></i> Delete</button></td>
                             <input type="hidden" value="<%= client_app.id %>">
+                            <input type="hidden" value="<%= client_app.name %>">
+                            <input type="hidden" value="<%= client_app.url %>">
                         </tr>
                         <% end %>
                     </tbody>
