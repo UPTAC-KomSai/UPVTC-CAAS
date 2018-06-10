@@ -241,7 +241,15 @@ $(document).ready(function() {
     var cancelButton = $(buttonRowChidren[2]).children('button.cancel-app-button')[0];
 
     // Make sure there is only one ending / in the client app URL.
-    clientAppUrl = clientAppUrl.replace(/,+$/, "");
+    var lastCharacterIndex = 0;
+    for (var i = clientAppUrl.length - 1; i >= 0; i--) {
+      if (clientAppUrl[i] != '/') {
+        lastCharacterIndex = i;
+        break;
+      }
+    }
+
+    newClientAppUrl = newClientAppUrl.slice(0, lastCharacterIndex + 1);
     clientAppUrl += '/';
 
     $(this).attr('disabled', 'disabled')
@@ -353,7 +361,17 @@ $(document).ready(function() {
     var newClientAppName = $($(clientAppNameColumn).children('input')[0]).val();
     var newClientAppUrl = $($(clientAppUrlColumn).children('input')[0]).val();
 
+    // Make sure there is only one ending / in the client app URL.
+    var lastCharacterIndex = 0;
     newClientAppUrl = newClientAppUrl.replace(/,+$/, "");
+    for (var i = newClientAppUrl.length - 1; i >= 0; i--) {
+      if (newClientAppUrl[i] != '/') {
+        lastCharacterIndex = i;
+        break;
+      }
+    }
+
+    newClientAppUrl = newClientAppUrl.slice(0, lastCharacterIndex + 1);
     newClientAppUrl += '/';
 
     $(this).attr('disabled', 'disabled')

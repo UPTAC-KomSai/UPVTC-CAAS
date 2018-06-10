@@ -58,8 +58,17 @@ class AdminPanelController < ApplicationController
 
         # Check duplicate URLs
 
-        client_details[1].chomp!(client_details[1][/\/+$/])
-        client_details[1] += '/'
+        last_character_index = 0
+        str_ctr = client_details[1].length - 1
+        while str_ctr >= 0 do
+            if client_details[str_ctr] != '/'
+                last_character_index = str_ctr
+                break
+            end
+
+            str_ctr -= 1
+        end
+        client_details = client_details[0..str_ctr]
 
         app = ClientApp.create(name: client_details[0], url: client_details[1])
 
@@ -81,7 +90,17 @@ class AdminPanelController < ApplicationController
         app_name = params[:app_name]
         app_url = params[:app_url]
 
-        # Fix bug where the trailing slashes were not being removed.
+        last_character_index = 0
+        str_ctr = app_url[1].length - 1
+        while str_ctr >= 0 do
+            if app_url[str_ctr] != '/'
+                last_character_index = str_ctr
+                break
+            end
+
+            str_ctr -= 1
+        end
+        app_url = app_url[0..str_ctr]
         
         client_app = ClientApp.find_by(id: app_id)
         client_app.name = app_name
