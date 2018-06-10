@@ -125,6 +125,8 @@ article {
     font-family: $source-sans-pro-font;
     text-align: center;
 
+    overflow: auto;
+
     div#dashboard {
         h1 {
             font-size: 2em;
@@ -238,27 +240,15 @@ article {
         }
 
         div#app-management-form {
-            max-width: 800px;
-
-            div.removable-input {
-                position: relative;
-
-                span {
-                    color: #ED213A;
-
-                    position: absolute;
-                    top: 10px;
-                    right: 10px;
-
-                    cursor: pointer;
-                }
-            }
+            max-width: 960px;
 
             div#app-list {
                 table {
                     tbody {
                         tr {
                             td {
+                                width: 250px;
+
                                 &.client-name {
                                     text-align: left;
                                 }
@@ -266,8 +256,7 @@ article {
                                 vertical-align: middle;
 
                                 button {
-                                    margin-left: 10px;
-                                    margin-right: 10px;
+                                    margin: 5px 5px 5px 5px;
                                 }
                             }
                         }

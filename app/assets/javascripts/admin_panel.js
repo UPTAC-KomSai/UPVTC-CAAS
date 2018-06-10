@@ -155,4 +155,18 @@ $(document).ready(function() {
       $('div#dashboard').css('display', 'block').addClass('animated fadeInLeft');
     });
   });
+
+  $('button#add-new-app').click(function() {
+    $('div#app-management-form div#app-list table tbody').append(
+      '<tr>' +
+      '    <td><input type="text" class="form-control client-app-name-input" placeholder="Client App Name" required></td>' +
+      '    <td><input type="text" class="form-control client-app-url-input" placeholder="Client App URL" required></td>' +
+      '    <td><button class="save-app-button btn btn-primary"><i class="fas fa-check"></i> Save</button><button class="cancel-app-button btn btn-danger"><i class="fas fa-ban"></i> Cancel</button></td>' +
+      '</tr>'
+    );
+  });
+
+  $('div#app-management-form div#app-list table').on('click', '.cancel-app-button', function() {
+    $(this).parent().parent().remove();
+  })
 });
