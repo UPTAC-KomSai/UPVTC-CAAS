@@ -74,4 +74,17 @@ class AdminPanelController < ApplicationController
 
         ClientApp.where(id: app_id).destroy_all
     end
+
+    def update_client_app
+        # Check if the ID exists
+        app_id = params[:id]
+        app_name = params[:app_name]
+        app_url = params[:app_url]
+
+        client_app = ClientApp.find_by(id: app_id)
+        client_app.name = app_name
+        client_app.url = app_url
+
+        client_app.save
+    end
 end

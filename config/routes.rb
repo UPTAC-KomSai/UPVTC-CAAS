@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   post 'admin/send_emails', to: 'admin_panel#send_emails'
   put 'admin/app/new', to: 'admin_panel#new_client_app'
   delete 'admin/app/:id', to: 'admin_panel#delete_client_app'
+  post 'admin/app/:id', to: 'admin_panel#update_client_app'
 end

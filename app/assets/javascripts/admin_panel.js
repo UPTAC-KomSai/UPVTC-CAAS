@@ -1,3 +1,6 @@
+// TODO: Make sure to prevent the URL error message from showing up when
+//       pressing "Cancel".
+
 $.fn.extend({
   animateCss: function(animationName, callback) {
     var animationEnd = (function(el) {
@@ -157,8 +160,8 @@ $(document).ready(function() {
   $('button#add-new-app').click(function() {
     $('div#app-management-form div#app-list table tbody').append(
       '<tr>' +
-      '    <td><input type="text" class="form-control client-app-name-input" placeholder="Client App Name" required></td>' +
-      '    <td><input type="text" class="form-control client-app-url-input" placeholder="Client App URL" required></td>' +
+      '    <td><input type="text" class="form-control client-app-input" placeholder="Client App Name" required></td>' +
+      '    <td><input type="text" class="form-control client-app-input" placeholder="Client App URL" required></td>' +
       '    <td><button class="save-app-button btn btn-primary" disabled><i class="fas fa-check"></i> Save</button><button class="cancel-app-button btn btn-danger"><i class="fas fa-ban"></i> Cancel</button></td>' +
       '</tr>'
     );
@@ -167,15 +170,15 @@ $(document).ready(function() {
     $($(newlyAddedRow).children('td')[0]).children('input').focus();
   });
 
-  $('div#app-management-form div#app-list table').on('blur', 'input', function() {
+  $('div#app-management-form div#app-list table').on('blur', 'input.client-app-input', function() {
     var clientRow = $($(this).parent().parent()).children('td');
     var inputsFilled = true;
+    var urlRegex = /^https?:\/\/[-a-zA-Z0-9@:%._\+~#=\/]{1,256}$/;
     for (var i = 0; i < 2; i++) {
       var currentRow = $(clientRow[i]).children('input')[0];
       
       if (i == 1 && !$(currentRow).hasClass('error-focus') && $(currentRow).val() != '') {
         // We are in the app url input.
-        var urlRegex = /^https?:\/\/[-a-zA-Z0-9@:%._\+~#=\/]{1,256}$/;
         if (!urlRegex.test($(currentRow).val())) {
           // URL does not match!
           $('div#error-message').html('<p>Hey! URL format is incorrect. It must be a valid URL and must start with "http" or "https".</p>');
@@ -201,12 +204,12 @@ $(document).ready(function() {
       }
     }
 
-    if (inputsFilled) {
+    if (inputsFilled && urlRegex.test($($(clientRow[1]).children('input')[0]).val())) {
       $(clientRow[2]).children('button.save-app-button').removeAttr('disabled');
     }
   });
 
-  $('div#app-management-form div#app-list table').on('keyup', 'input', function() {
+  $('div#app-management-form div#app-list table').on('keyup', 'input.client-app-input', function() {
     var clientRow = $($(this).parent().parent()).children('td');
     for (var i = 0; i < 2; i++) {
       var currentRow = $(clientRow[i]).children('input')[0];
@@ -311,38 +314,189 @@ $(document).ready(function() {
     var clientAppUrlColumn = $(buttonRowChidren[1]);
     var clientAppName = $.trim($(buttonRowChidren[0]).text());
     var clientAppUrl = $.trim($(buttonRowChidren[1]).text());
+    var storedClientAppNameField = $(this).parent().parent().children('input')[1];
+    var storedClientAppUrlField = $(this).parent().parent().children('input')[2];
     var appID = $($(this).parent().parent().children('input')[0]).val();
     var editButton = $(this);
     var deleteButton = $(buttonRowChidren[2]).children('button.delete-app-button')[0];
 
     $(clientAppNameColumn).html(
-      '<input type="text" class="form-control client-app-name-input" placeholder="Client App Name" value="' + clientAppName +'" required>'
+      '<input type="text" class="form-control client-app-edit-input" placeholder="Client App Name" value="' + clientAppName +'" required>'
     );
     $(clientAppUrlColumn).html(
-      '<input type="text" class="form-control client-app-url-input" placeholder="Client App URL" value="' + clientAppUrl +'" required>'
+      '<input type="text" class="form-control client-app-edit-input" placeholder="Client App URL" value="' + clientAppUrl +'" required>'
     );
+
+    $($(clientAppNameColumn).children('input')[0]).focus();
 
     $(this).removeClass('btn-dark edit-app-button')
            .addClass('btn-primary save-edit-app-button')
+           .attr('disabled', 'disabled')
            .html('<i class="fas fa-check"></i> Save');
     $(deleteButton).removeClass('delete-app-button')
                    .addClass('revert-app-button')
                    .html('<i class="fas fa-ban"></i> Cancel');
   });
 
+  $('div#app-management-form div#app-list table').on('click', '.save-edit-app-button', function() {
+    var buttonRowChidren = $(this).parent().parent().children('td');
+    var clientAppNameColumn = $(buttonRowChidren[0]);
+    var clientAppUrlColumn = $(buttonRowChidren[1]);
+    var clientAppName = $.trim($(buttonRowChidren[0]).text());
+    var clientAppUrl = $.trim($(buttonRowChidren[1]).text());
+    var storedClientAppNameField = $(this).parent().parent().children('input')[1];
+    var storedClientAppUrlField = $(this).parent().parent().children('input')[2];
+    var appID = $($(this).parent().parent().children('input')[0]).val();
+    var editButton = $(this);
+    var deleteButton = $(buttonRowChidren[2]).children('button.revert-app-button')[0];
+
+    var newClientAppName = $($(clientAppNameColumn).children('input')[0]).val();
+    var newClientAppUrl = $($(clientAppUrlColumn).children('input')[0]).val();
+
+    $(this).attr('disabled', 'disabled')
+           .html('<i class="fas fa-spinner fa-spin"></i> Saving...');
+    $(deleteButton).attr('disabled', 'disabled');
+    
+    $.ajax({
+      url: '/admin/app/' + appID,
+      type: 'POST',
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]')
+           .attr('content'))
+      },
+      data: 'app_name=' + newClientAppName + '&app_url=' + newClientAppUrl
+    })
+    .done(function (response) {
+      $(editButton).removeClass('btn-primary save-edit-app-button')
+                   .addClass('btn-dark edit-app-button')
+                   .removeAttr('disabled')
+                   .html('<i class="fas fa-edit"></i> Edit');
+      $(deleteButton).removeClass('revert-app-button')
+                     .removeAttr('disabled')
+                     .addClass('delete-app-button')
+                     .html('<i class="fas fa-trash"></i> Delete');
+      
+      $(clientAppNameColumn).html(newClientAppName);
+      $(clientAppUrlColumn).html(newClientAppUrl);
+      $(storedClientAppNameField).val(newClientAppName);
+      $(storedClientAppUrlField).val(newClientAppUrl);
+  
+      $('div#success-message').html('<p>Updated app! <i class="fas fa-smile"></i></p>');
+      $('div#success-message').css('transform', 'translate(-50%, 0%)')
+                              .delay(5000)
+                              .queue(function(next) {
+                                $('div#success-message').css('transform', 'translate(-50%, -100%)');
+                                next();
+                              });
+    })
+    .fail(function(XMLHttpRequest, response, errorThrown) {
+      $(editButton).removeClass('btn-primary save-edit-app-button')
+                   .addClass('btn-dark edit-app-button')
+                   .removeAttr('disabled')
+                   .html('<i class="fas fa-edit"></i> Edit');
+      $(deleteButton).removeClass('revert-app-button')
+                     .addClass('delete-app-button')
+                     .html('<i class="fas fa-trash"></i> Delete');
+
+      var errorMessage = '';
+      if (XMLHttpRequest.readyState == 4) {
+        // HTTP Error.
+        errorMessage = '<i class="fas fa-frown"></i> ' + XMLHttpRequest.statusText;
+      } else if (XMLHttpRequest.readyState == 0) {
+        errorMessage = 'It seems that we cannot update apps as of the moment. <i class="fas fa-frown"></i> Check again later and please inform the system administrator that you cannot update apps.';
+      } else {
+        errorMessage = 'Weird stuff. <i class="fas fa-meh"></i> Please report this issue to the system adminstrator immediately!';
+      }
+
+      $('div#error-message').html('<p>Oh no! ' + errorMessage + '</p>');
+      $('div#error-message').css('transform', 'translate(-50%, 0%)')
+                            .delay(10000)
+                            .queue(function(next) {
+                              $('div#error-message').css('transform', 'translate(-50%, -100%)');
+                              next();
+                            });
+    });
+  });
+
+  $('div#app-management-form div#app-list table').on('blur', 'input.client-app-edit-input', function() {
+    var clientRow = $($(this).parent().parent()).children('td');
+    var inputsFilled = true;
+    var urlRegex = /^https?:\/\/[-a-zA-Z0-9@:%._\+~#=\/]{1,256}$/;
+    for (var i = 0; i < 2; i++) {
+      var currentRow = $(clientRow[i]).children('input')[0];
+      
+      if (i == 1 && !$(currentRow).hasClass('error-focus') && $(currentRow).val() != '') {
+        // We are in the app url input.
+        if (!urlRegex.test($(currentRow).val())) {
+          // URL does not match!
+          $('div#error-message').html('<p>Hey! URL format is incorrect. It must be a valid URL and must start with "http" or "https".</p>');
+          $('div#error-message').css('transform', 'translate(-50%, 0%)')
+                                .delay(5000)
+                                .queue(function(next) {
+                                  $('div#error-message').css('transform', 'translate(-50%, -100%)');
+                                  next();
+                                });
+          $(currentRow).addClass('error-focus');
+          $(currentRow).focus();
+
+          $(clientRow[2]).children('button.save-edit-app-button').attr('disabled', 'disabled');
+
+          return false;
+        }
+      } else if (i == 1 && $(currentRow).hasClass('error-focus')) {
+        $(currentRow).removeClass('error-focus');
+      }
+
+      if ($(currentRow).val() == '') {
+        $(clientRow[2]).children('button.save-edit-app-button').attr('disabled', 'disabled');
+
+        inputsFilled = false;
+      }
+    }
+
+    if (inputsFilled && urlRegex.test($($(clientRow[1]).children('input')[0]).val())) {
+      $(clientRow[2]).children('button.save-edit-app-button').removeAttr('disabled');
+    }
+  });
+
+  $('div#app-management-form div#app-list table').on('keyup', 'input.client-app-edit-input', function() {
+    var clientRow = $($(this).parent().parent()).children('td');
+    for (var i = 0; i < 2; i++) {
+      var currentRow = $(clientRow[i]).children('input')[0];
+      
+      if ($(currentRow).val() == '') {
+        $(clientRow[2]).children('button.save-edit-app-button').attr('disabled', 'disabled');
+
+        return false;
+      }
+
+      if (i == 1) {
+        // We are in the app url input.
+        var urlRegex = /^https?:\/\/[-a-zA-Z0-9@:%._\+~#=\/]{1,256}$/;
+        if (!urlRegex.test($(currentRow).val())) {
+          // URL does not match!
+          $(clientRow[2]).children('button.save-edit-app-button').attr('disabled', 'disabled');
+        } else {
+          $(clientRow[2]).children('button.save-edit-app-button').removeAttr('disabled');
+        }
+      }
+    }
+  });
+
   $('div#app-management-form div#app-list table').on('click', '.revert-app-button', function() {
     var buttonRowChidren = $(this).parent().parent().children('td');
     var clientAppNameColumn = $(buttonRowChidren[0]);
     var clientAppUrlColumn = $(buttonRowChidren[1]);
-    var storedClientAppNameField = $($(this).parent().parent().children('input')[1]).val();
-    var storedClientAppUrlField = $($(this).parent().parent().children('input')[2]).val();
+    var storedClientAppName = $($(this).parent().parent().children('input')[1]).val();
+    var storedClientAppUrl = $($(this).parent().parent().children('input')[2]).val();
     var editButton = $(buttonRowChidren[2]).children('button.save-edit-app-button')[0];
 
-    $(clientAppNameColumn).html(storedClientAppNameField);
-    $(clientAppUrlColumn).html(storedClientAppUrlField);
+    $(clientAppNameColumn).html(storedClientAppName);
+    $(clientAppUrlColumn).html(storedClientAppUrl);
 
     $(editButton).removeClass('btn-primary save-edit-app-button')
                  .addClass('btn-dark edit-app-button')
+                 .removeAttr('disabled')
                  .html('<i class="fas fa-edit"></i> Edit');
     $(this).removeClass('revert-app-button')
            .addClass('delete-app-button')
