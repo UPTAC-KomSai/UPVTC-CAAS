@@ -161,12 +161,30 @@ $(document).ready(function() {
       '<tr>' +
       '    <td><input type="text" class="form-control client-app-name-input" placeholder="Client App Name" required></td>' +
       '    <td><input type="text" class="form-control client-app-url-input" placeholder="Client App URL" required></td>' +
-      '    <td><button class="save-app-button btn btn-primary"><i class="fas fa-check"></i> Save</button><button class="cancel-app-button btn btn-danger"><i class="fas fa-ban"></i> Cancel</button></td>' +
+      '    <td><button class="save-app-button btn btn-primary" disabled><i class="fas fa-check"></i> Save</button><button class="cancel-app-button btn btn-danger"><i class="fas fa-ban"></i> Cancel</button></td>' +
       '</tr>'
     );
+
+    var newlyAddedRow = $('div#app-management-form div#app-list table tbody tr').last();
+    $($(newlyAddedRow).children('td')[0]).children('input').focus();
+  });
+
+  $('div#app-management-form div#app-list table').on('blur', 'input', function() {
+    var clientRow = $($(this).parent().parent()).children('td');
+    for (var i = 0; i < 2; i++) {
+      var currentRow = $(clientRow[i]).children('input')[0];
+      
+      if ($(currentRow).val() == '') {
+        $(clientRow[2]).children('button.save-app-button').attr('disabled', 'disabled');
+
+        return false;
+      }
+    }
+
+    $(clientRow[2]).children('button.save-app-button').removeAttr('disabled');
   });
 
   $('div#app-management-form div#app-list table').on('click', '.cancel-app-button', function() {
     $(this).parent().parent().remove();
-  })
+  });
 });
