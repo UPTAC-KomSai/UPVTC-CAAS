@@ -2,6 +2,7 @@ require 'gmail'
 
 class AdminPanelController < ApplicationController
     def index
+        p Rails.application.secrets.google_email
         if not current_user or current_user.email != Rails.application.secrets.google_email
             redirect_to request.base_url
         end
