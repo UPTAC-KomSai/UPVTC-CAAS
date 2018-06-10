@@ -5,8 +5,10 @@ class AdminPanelController < ApplicationController
         if not current_user
             # TODO: Work on this. Lol.
             #redirect_to '/auth?redirect_url=' + request.original_url
-            redirect_to '/admin'
+            redirect_to request.base_url
         end
+
+        @client_apps = ClientApp.all
     end
 
     def send_emails

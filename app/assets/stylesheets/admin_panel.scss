@@ -211,6 +211,81 @@ article {
             }
         }
     }
+
+    div#manage-apps-panel {
+        display: none;
+
+        h1 {
+            font-size: 2em;
+        }
+
+        div#manage-apps-banner {
+            h1 {
+                span {
+                    color: #ED213A;
+    
+                    float: left;
+    
+                    cursor: pointer;
+    
+                    transition: 0.2s all ease-in;
+    
+                    &:hover {
+                        color: rgb(230, 55, 76);
+                    }
+                }
+            }
+        }
+
+        div#app-management-form {
+            max-width: 800px;
+
+            div.removable-input {
+                position: relative;
+
+                span {
+                    color: #ED213A;
+
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+
+                    cursor: pointer;
+                }
+            }
+
+            div#app-list {
+                table {
+                    tbody {
+                        tr {
+                            td {
+                                &.client-name {
+                                    text-align: left;
+                                }
+
+                                vertical-align: middle;
+
+                                button {
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            div#manage-apps-form-buttons {
+                button#add-new-app {
+                    float: left !important;
+                }
+
+                button#save-changes {
+                    float: right;
+                }
+            }
+        }
+    }
 }
 
 footer {

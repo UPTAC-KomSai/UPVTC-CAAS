@@ -141,4 +141,18 @@ $(document).ready(function() {
       });
     }
   });
+
+  $('div#manage-apps').click(function() {
+    $('div#dashboard').animateCss('fadeOutLeft', function() {
+      $('div#dashboard').css('display', 'none');
+      $('div#manage-apps-panel').css('display', 'block').addClass('animated fadeInRight');
+    });
+  });
+
+  $('span#manage-apps-back-button').click(function() {
+    $('div#manage-apps-panel').animateCss('fadeOutRight', function() {
+      $('div#manage-apps-panel').css('display', 'none');
+      $('div#dashboard').css('display', 'block').addClass('animated fadeInLeft');
+    });
+  });
 });

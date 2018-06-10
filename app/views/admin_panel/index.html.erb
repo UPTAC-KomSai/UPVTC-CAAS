@@ -24,7 +24,7 @@
                     <h1>Invite New Users</h1>
                     <p>The more the merrier. Let more UPVTC students know about the UPVTC apps.</p>
                 </div>
-                <div id="manage-applications" class="admin-option col-sm">
+                <div id="manage-apps" class="admin-option col-sm">
                     <%= image_tag "admin/manage-apps.svg" %>
                     <h1>Manage Apps</h1>
                     <p>Manage client apps that use the UPVTC-CAAS service.</p>
@@ -48,6 +48,38 @@
                     <button id="invite-users" type="submit" class="btn btn-danger"><i class="fas fa-paper-plane"></i> Invite users</button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div id="manage-apps-panel" class="container">
+        <div id="manage-apps-banner">
+            <h1><span id="manage-apps-back-button"><i class="fas fa-arrow-left"></i></span>Manage Apps</h1>
+            <p>Add, edit, or remove client apps that utilize the UPVTC-CAAS service.</p>
+        </div>
+        <div id="app-management-form" class="container">
+            <div id="app-list" class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>App Name</th>
+                            <th>App URL</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @client_apps.each do |client_app| %>
+                        <tr>
+                            <td class="client-name"><%= client_app.name %></td>
+                            <td><%= client_app.url %></td>
+                            <td><button class="edit-app-button btn btn-dark"><i class="fas fa-edit"></i> Edit</button><button class="delete-app-button btn btn-danger"><i class="fas fa-trash"></i> Delete</button></td>
+                        </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+            <div id="manage-apps-form-buttons">
+            <button id="add-new-app" type="button" class="btn btn-secondary"><i class="fas fa-plus"></i> Add New App</button>
+                <button id="save-changes" type="submit" class="btn btn-danger"><i class="fas fa-save"></i> Save Changes</button>
+            </div>
         </div>
     </div>
 </article>
