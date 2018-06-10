@@ -81,6 +81,8 @@ class AdminPanelController < ApplicationController
         app_name = params[:app_name]
         app_url = params[:app_url]
 
+        # Fix bug where the trailing slashes were not being removed.
+        
         client_app = ClientApp.find_by(id: app_id)
         client_app.name = app_name
         client_app.url = app_url

@@ -353,6 +353,9 @@ $(document).ready(function() {
     var newClientAppName = $($(clientAppNameColumn).children('input')[0]).val();
     var newClientAppUrl = $($(clientAppUrlColumn).children('input')[0]).val();
 
+    newClientAppUrl = newClientAppUrl.replace(/,+$/, "");
+    newClientAppUrl += '/';
+
     $(this).attr('disabled', 'disabled')
            .html('<i class="fas fa-spinner fa-spin"></i> Saving...');
     $(deleteButton).attr('disabled', 'disabled');
