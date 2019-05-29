@@ -253,7 +253,7 @@ $(document).ready(function() {
       }
     }
 
-    newClientAppUrl = newClientAppUrl.slice(0, lastCharacterIndex + 1);
+    newClientAppUrl = clientAppUrl.slice(0, lastCharacterIndex + 1);
     clientAppUrl += '/';
 
     $(this).attr('disabled', 'disabled')
